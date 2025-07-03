@@ -1,10 +1,11 @@
+import Navbar from "../Components/Common/Navbar";
 
 
 const MainLayout = () => {
     return (
         <div>
             <nav>
-                <h1>this is navbar</h1>
+                <Navbar />
             </nav>
             <main>
                 <h1>this is main content</h1>
