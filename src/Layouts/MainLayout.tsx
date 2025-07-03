@@ -1,3 +1,4 @@
+import { Outlet } from "react-router";
 import Navbar from "../Components/Common/Navbar";
 
 
@@ -8,7 +9,7 @@ const MainLayout = () => {
                 <Navbar />
             </nav>
             <main>
-                <h1>this is main content</h1>
+                <Outlet />
             </main>
             <footer>
                 <h1>this is footer</h1>
