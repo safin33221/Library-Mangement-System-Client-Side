@@ -24,11 +24,14 @@ export const baseApi = createApi({
                 body: borrowData
             }),
             invalidatesTags: ["books"]
-            
+
+        }),
+        getBorrowSummary: builder.query({
+            query: () => "/borrow",
         })
 
     })
 
 })
 
-export const { useGetBooksQuery, useCreateBookMutation, useBorrowBookMutation } = baseApi
+export const { useGetBooksQuery, useCreateBookMutation, useBorrowBookMutation, useGetBorrowSummaryQuery } = baseApi
