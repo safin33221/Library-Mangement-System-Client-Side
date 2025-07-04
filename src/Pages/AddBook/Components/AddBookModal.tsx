@@ -1,25 +1,19 @@
-import { Button } from "@/components/ui/button"
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/Components/ui/form"
-import { Input } from "@/components/ui/input"
 import { Switch } from "@/Components/ui/switch"
-
+import { Input } from "@/Components/ui/input"
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
+import { Button } from "@/Components/ui/button"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog"
+import { useCreateBookMutation } from "@/redux/api/baseApi"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select"
 
 const AddBookModal = () => {
     const form = useForm()
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data);
+    const [createBook, { data }] = useCreateBookMutation()
+    const onSubmit: SubmitHandler<FieldValues> = (bookData) => {
+        createBook(bookData)
     }
+    console.log(data);
     return (
         <Dialog>
             <form>
@@ -36,6 +30,7 @@ const AddBookModal = () => {
                     </DialogHeader>
                     <div className="grid gap-4">
                         <Form {...form}>
+
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                                 {/* Title */}
                                 <FormField
@@ -99,10 +94,24 @@ const AddBookModal = () => {
                                     name="genre"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Genre</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="SCIENCE" {...field} />
-                                            </FormControl>
+                                            <FormLabel>Email</FormLabel>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Select a Genre" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectItem value="FICTION">FICTION</SelectItem>
+                                                    <SelectItem value="NON_FICTION">NON_FICTION</SelectItem>
+                                                    <SelectItem value="SCIENCE">SCIENCE</SelectItem>
+                                                    <SelectItem value="HISTORY">HISTORY</SelectItem>
+                                                    <SelectItem value="BIOGRAPHY">BIOGRAPHY</SelectItem>
+                                                    <SelectItem value="FANTASY">FANTASY</SelectItem>
+
+                                                </SelectContent>
+                                            </Select>
+
                                         </FormItem>
                                     )}
                                 />
@@ -136,6 +145,7 @@ const AddBookModal = () => {
                                             <FormControl>
                                                 <Switch
                                                     checked={field.value}
+                                                    defaultChecked={true}
                                                     onCheckedChange={field.onChange}
                                                 />
                                             </FormControl>
@@ -150,7 +160,7 @@ const AddBookModal = () => {
                         <DialogClose asChild>
                             <Button variant="outline">Cancel</Button>
                         </DialogClose>
-                     
+
                     </DialogFooter>
                 </DialogContent>
             </form>

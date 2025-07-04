@@ -7,10 +7,19 @@ export const baseApi = createApi({
     endpoints: (builder) => ({
         getBooks: builder.query({
             query: () => "/books",
+            providesTags: ["books"]
         }),
+        createBook: builder.mutation({
+            query: (bookData) => ({
+                url: "/books",
+                method: "POST",
+                body: bookData
+            }),
+            invalidatesTags: ["books"]
+        })
 
     })
 
 })
 
-export const { useGetBooksQuery } = baseApi
+export const { useGetBooksQuery, useCreateBookMutation } = baseApi
