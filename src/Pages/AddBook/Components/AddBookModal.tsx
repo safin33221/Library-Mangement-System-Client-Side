@@ -6,24 +6,30 @@ import { Button } from "@/Components/ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog"
 import { useCreateBookMutation } from "@/redux/api/baseApi"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select"
+import toast from "react-hot-toast"
+import { useState } from "react"
 
 const AddBookModal = () => {
     const form = useForm()
-    const [createBook, { data }] = useCreateBookMutation()
+    const [open, setOpen] = useState(false)
+    const [createBook] = useCreateBookMutation()
     const onSubmit: SubmitHandler<FieldValues> = (bookData) => {
         createBook(bookData)
+        toast.success("Book Added Successfully")
+        setOpen(false)
+        form.reset()
     }
-    console.log(data);
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <form>
                 <DialogTrigger asChild>
-                    <Button variant="outline">Open Dialog</Button>
+                    <Button variant="outline" className="text-orange-500 font-bold hover:text-orange-600">ADD Book</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
-                        <DialogTitle>Edit profile</DialogTitle>
-                        <DialogDescription>
+                        <DialogTitle>Add Book</DialogTitle>
+                        <DialogDescription className="sr-only">
                             Make changes to your profile here. Click save when you&apos;re
                             done.
                         </DialogDescription>
