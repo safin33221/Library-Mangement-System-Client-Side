@@ -1,25 +1,50 @@
 
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
 import { Button } from './ui/button';
-import { format } from 'date-fns';
+
 import { Input } from './ui/input';
 import type { IBook } from '@/interfaces/Book';
 import { Form, FormControl, FormField, FormItem, FormLabel } from './ui/form';
 import { useForm, type FieldValues, type SubmitHandler } from 'react-hook-form';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { CalendarIcon } from 'lucide-react';
-import { Calendar } from './ui/calendar';
+
 import { cn } from '@/lib/utils';
+import { Calendar } from './ui/calendar';
+import { useBorrowBookMutation } from '@/redux/api/baseApi';
+import toast from 'react-hot-toast';
+import { useState } from 'react';
+
+
 
 const BorrowBookModal = ({ book }: { book: IBook }) => {
-    console.log(book);
+    const [open, setOpen] = useState(false)
     const form = useForm()
-    const onSubmit: SubmitHandler<FieldValues> = (quantity) => {
-        console.log(quantity, book?._id);
+    const [createBorrow] = useBorrowBookMutation()
+
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+        const res = await createBorrow({ ...data, book: book._id })
+        // toast.error(res.error.data.error.message);
+        // console.log(res.error.data.error.message);
+        console.log(res);
+        if (res?.error?.data?.error?.message) {
+            toast.error(res?.error?.data?.error?.message)
+        }
+        else if (res?.error?.data?.message) {
+            toast.error(res?.error?.data?.message)
+        }
+        else {
+            toast.success("Book Borrowed")
+            setOpen(false)
+            form.reset()
+        }
+
     }
+
     return (
         <div>
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <form>
                     <DialogTrigger asChild>
                         <button className='bg-none border-none '>Borrow</button>
@@ -39,7 +64,7 @@ const BorrowBookModal = ({ book }: { book: IBook }) => {
 
                                     <FormField
                                         control={form.control}
-                                        name="Quantity"
+                                        name="quantity"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Quantity</FormLabel>
@@ -51,10 +76,10 @@ const BorrowBookModal = ({ book }: { book: IBook }) => {
                                     />
                                     <FormField
                                         control={form.control}
-                                        name="dob"
+                                        name="dueDate"
                                         render={({ field }) => (
                                             <FormItem className="flex flex-col">
-                                                <FormLabel>Date of birth</FormLabel>
+                                                <FormLabel>Due Date</FormLabel>
                                                 <Popover>
                                                     <PopoverTrigger asChild>
                                                         <FormControl>
@@ -66,10 +91,9 @@ const BorrowBookModal = ({ book }: { book: IBook }) => {
                                                                 )}
                                                             >
                                                                 {field.value ? (
-
-                                                                    format(field.value, "PPP")
+                                                                    new Date(field.value).toLocaleDateString()
                                                                 ) : (
-                                                                    <span>Pick a date</span>
+                                                                    <span>Due Date</span>
                                                                 )}
                                                                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                                             </Button>
@@ -80,6 +104,7 @@ const BorrowBookModal = ({ book }: { book: IBook }) => {
                                                             mode="single"
                                                             selected={field.value}
                                                             onSelect={field.onChange}
+
                                                             // disabled={(date) =>
                                                             //     date > new Date() || date < new Date("1900-01-01")
                                                             // }
