@@ -15,10 +15,12 @@ import {
     Select, SelectContent, SelectItem, SelectTrigger, SelectValue
 } from './ui/select';
 import { FaEdit } from 'react-icons/fa';
+import { useUpdateBookMutation } from '@/redux/api/baseApi';
+import toast from 'react-hot-toast';
 
 const UpdateBookModal = ({ book }: { book: IBook }) => {
     const [open, setOpen] = useState(false);
-    console.log(book);
+    const [updateBook] = useUpdateBookMutation()
 
     const form = useForm({
         defaultValues: {
@@ -48,6 +50,20 @@ const UpdateBookModal = ({ book }: { book: IBook }) => {
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         console.log("Updated data:", data);
+        const bookData = { id: book._id, ...data }
+        console.log(bookData);
+        try {
+
+            updateBook(bookData)
+            toast.success('Book Update successfully')
+            setOpen(false)
+            form.reset()
+
+        } catch (error) {
+            console.log(error);
+            toast.error("Something went wrong")
+
+        }
     };
 
     return (

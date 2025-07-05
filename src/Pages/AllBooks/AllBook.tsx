@@ -1,6 +1,6 @@
 import { useDeleteBookMutation, useGetBooksQuery } from "../../redux/api/baseApi";
 import type { IBook } from '../../interfaces/Book';
-import { FaEdit, FaTrash } from "react-icons/fa";
+import {  FaTrash } from "react-icons/fa";
 import BorrowBookModal from "@/Components/BorrowBookModal";
 import toast from "react-hot-toast";
 import UpdateBookModal from "@/Components/UpdateBookModal";
