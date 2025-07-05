@@ -26,8 +26,7 @@ const BorrowBookModal = ({ book }: { book: IBook }) => {
 
         const res = await createBorrow({ ...data, book: book._id })
         // toast.error(res.error.data.error.message);
-        // console.log(res.error.data.error.message);
-        console.log(res);
+       
         if (res?.error?.data?.error?.message) {
             toast.error(res?.error?.data?.error?.message)
         }
