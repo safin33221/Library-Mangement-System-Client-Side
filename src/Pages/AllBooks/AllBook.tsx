@@ -1,14 +1,15 @@
 import { useGetBooksQuery } from "../../redux/api/baseApi";
 import type { IBook } from '../../interfaces/Book';
-import { FaBook, FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import BorrowBookModal from "@/Components/BorrowBookModal";
+
 
 const AllBook = () => {
     const { data } = useGetBooksQuery(undefined);
     const books = data?.data;
 
-    const handleBorrow = (book: IBook) => {
-        console.log("Borrow book:", book.title);
-    };
+
+
 
     const handleEdit = (book: IBook) => {
         console.log("Edit book:", book.title);
@@ -51,11 +52,15 @@ const AllBook = () => {
                                 </td>
                                 <td className="px-4 py-2 border space-x-2">
                                     <button
-                                        onClick={() => handleBorrow(book)}
-                                        className="text-blue-600 hover:text-blue-800"
-                                        title="Borrow Book"
+                                        disabled={!book.available}
+                                        className={`text-black font-bold btn btn-sm ${book.available ? "text-green-500" : "text-red-500"}`}
+
                                     >
-                                        <FaBook />
+                                        <BorrowBookModal
+
+                                            book={book}
+
+                                        />
                                     </button>
                                     <button
                                         onClick={() => handleEdit(book)}
@@ -77,6 +82,7 @@ const AllBook = () => {
                     }
                 </tbody>
             </table>
+
         </div>
     );
 };
