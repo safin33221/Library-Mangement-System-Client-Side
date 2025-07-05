@@ -1,13 +1,14 @@
-import { useGetBooksQuery } from "../../redux/api/baseApi";
+import { useDeleteBookMutation, useGetBooksQuery } from "../../redux/api/baseApi";
 import type { IBook } from '../../interfaces/Book';
 import { FaEdit, FaTrash } from "react-icons/fa";
 import BorrowBookModal from "@/Components/BorrowBookModal";
+import toast from "react-hot-toast";
 
 
 const AllBook = () => {
     const { data } = useGetBooksQuery(undefined);
     const books = data?.data;
-
+    const [deleteBooks] = useDeleteBookMutation()
 
 
 
@@ -16,7 +17,14 @@ const AllBook = () => {
     };
 
     const handleDelete = (book: IBook) => {
-        console.log("Delete book:", book.title);
+        try {
+            console.log("Delete book:", book.title);
+            deleteBooks(book._id)
+            toast.success(`${book.title} is Deleted successfully `)
+        } catch (error) {
+            toast.error(`somethings is wrong${error} `)
+
+        }
     };
 
     return (
