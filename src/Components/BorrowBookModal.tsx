@@ -25,18 +25,19 @@ const BorrowBookModal = ({ book }: { book: IBook }) => {
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
 
         const res = await createBorrow({ ...data, book: book._id })
+        console.log(res);
         // toast.error(res.error.data.error.message);
        
-        if (res?.error?.data?.error?.message) {
-            toast.error(res?.error?.data?.error?.message)
+        if (res && 'error' in res && res.error && typeof res.error === 'object' && 'data' in res.error && (res.error as any).data?.error?.message) {
+            toast.error((res.error as any).data.error.message)
         }
-        else if (res?.error?.data?.message) {
-            toast.error(res?.error?.data?.message)
-        }
-        else {
-            toast.success("Book Borrowed")
+        else if (res && 'data' in res && (res.data as any)?.message) {
+            toast.success((res.data as any).message)
             setOpen(false)
             form.reset()
+        }
+        else {
+            toast.error("An unexpected error occurred.")
         }
 
     }

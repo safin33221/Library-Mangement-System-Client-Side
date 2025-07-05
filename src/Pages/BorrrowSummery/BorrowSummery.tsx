@@ -1,5 +1,5 @@
 
-import type {  IBorrowSummary } from "@/interfaces/Borrow";
+import type { IBorrowSummary } from "@/interfaces/Borrow";
 import { useGetBorrowSummaryQuery } from "@/redux/api/baseApi";
 
 const BorrowSummary = () => {
@@ -25,8 +25,8 @@ const BorrowSummary = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {summaryData.map((borrow: IBorrowSummary, index) => (
-                            <tr key={borrow.isbn + index}>
+                        {summaryData.map((borrow: IBorrowSummary, index: number) => (
+                            <tr key={borrow.book.isbn + index}>
                                 <td>{index + 1}</td>
                                 <td>{borrow.book.title}</td>
                                 <td>{borrow.book.isbn}</td>
