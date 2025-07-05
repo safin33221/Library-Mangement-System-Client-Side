@@ -1,7 +1,8 @@
 "use client";
 
 import background from '../../assets/images/addbook.png'
-import AddBookModal from "./Components/AddBookModal";
+import AddBookModal from './Components/AddBookModal';
+
 
 const AddBook = () => {
 

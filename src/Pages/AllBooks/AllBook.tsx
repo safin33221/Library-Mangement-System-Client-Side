@@ -1,13 +1,13 @@
 import { useDeleteBookMutation, useGetBooksQuery } from "../../redux/api/baseApi";
 import type { IBook } from '../../interfaces/Book';
-import {  FaTrash } from "react-icons/fa";
-import BorrowBookModal from "@/Components/BorrowBookModal";
+import { FaTrash } from "react-icons/fa";
+import BorrowBookModal from "@/components/BorrowBookModal";
 import toast from "react-hot-toast";
-import UpdateBookModal from "@/Components/UpdateBookModal";
+import UpdateBookModal from "@/components/UpdateBookModal";
 
 
 const AllBook = () => {
-    const { data } = useGetBooksQuery(undefined);
+    const { data, isLoading } = useGetBooksQuery(undefined);
     const books = data?.data;
     const [deleteBooks] = useDeleteBookMutation()
 
@@ -28,6 +28,9 @@ const AllBook = () => {
         }
     };
 
+    if (isLoading) {
+        return <p>Loading</p>
+    }
     return (
         <div className="overflow-x-auto p-5">
             <h2 className="text-2xl font-bold mb-4">All Books</h2>

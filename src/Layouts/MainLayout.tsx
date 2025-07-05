@@ -1,18 +1,19 @@
 import { Outlet } from "react-router";
-import Navbar from "../Components/Common/Navbar";
+import Navbar from "../components/Common/Navbar";
 
 import { Toaster } from 'react-hot-toast';
+import Footer from "@/components/Common/Footer";
 const MainLayout = () => {
     return (
         <div>
             <nav>
                 <Navbar />
             </nav>
-            <main>
+            <main className="min-h-screen">
                 <Outlet />
             </main>
             <footer>
-                <h1>this is footer</h1>
+                <Footer />
             </footer>
             <Toaster />
         </div>

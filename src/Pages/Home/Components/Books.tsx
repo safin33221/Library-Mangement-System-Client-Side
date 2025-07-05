@@ -1,5 +1,5 @@
 
-import BookCard from '../../../Components/BookCard';
+import BookCard from '../../../components/BookCard';
 import type { IBook } from '../../../interfaces/Book';
 import { useGetBooksQuery } from '../../../redux/api/baseApi';
 

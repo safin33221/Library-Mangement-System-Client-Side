@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const baseApi = createApi({
     reducerPath: 'baseApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/api' }),
+    baseQuery: fetchBaseQuery({ baseUrl: 'https://library-management-olive-one.vercel.app/api' }),
     tagTypes: ["books"],
     endpoints: (builder) => ({
         getBooks: builder.query({
@@ -20,7 +20,7 @@ export const baseApi = createApi({
         updateBook: builder.mutation({
             query: ({ id, ...bookData }) => ({
                 url: `/books/${id}`,
-                method: "PUT", 
+                method: "PUT",
                 body: bookData,
             }),
             invalidatesTags: ["books"],
@@ -45,10 +45,12 @@ export const baseApi = createApi({
         }),
         getBorrowSummary: builder.query({
             query: () => "/borrow",
-        })
+        }),
+        
+
 
     })
 
 })
 
-export const { useGetBooksQuery, useCreateBookMutation, useBorrowBookMutation, useGetBorrowSummaryQuery,useUpdateBookMutation, useDeleteBookMutation } = baseApi
+export const { useGetBooksQuery, useCreateBookMutation, useBorrowBookMutation, useGetBorrowSummaryQuery, useUpdateBookMutation, useDeleteBookMutation } = baseApi

@@ -1,23 +1,26 @@
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/Components/ui/form"
-import { Switch } from "@/Components/ui/switch"
-import { Input } from "@/Components/ui/input"
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
+import { Switch } from "@/components/ui/switch"
+import { Input } from "@/components/ui/input"
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form"
-import { Button } from "@/Components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/Components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useCreateBookMutation } from "@/redux/api/baseApi"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import toast from "react-hot-toast"
 import { useState } from "react"
+import { useNavigate } from "react-router"
 
 const AddBookModal = () => {
     const form = useForm()
     const [open, setOpen] = useState(false)
+    const navigate = useNavigate()
     const [createBook] = useCreateBookMutation()
     const onSubmit: SubmitHandler<FieldValues> = (bookData) => {
         createBook(bookData)
         toast.success("Book Added Successfully")
         setOpen(false)
         form.reset()
+        navigate('/books')
     }
 
     return (

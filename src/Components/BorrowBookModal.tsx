@@ -14,12 +14,14 @@ import { Calendar } from './ui/calendar';
 import { useBorrowBookMutation } from '@/redux/api/baseApi';
 import toast from 'react-hot-toast';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
 
 
 const BorrowBookModal = ({ book }: { book: IBook }) => {
     const [open, setOpen] = useState(false)
     const form = useForm()
+    const navigate = useNavigate()
     const [createBorrow] = useBorrowBookMutation()
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -27,7 +29,7 @@ const BorrowBookModal = ({ book }: { book: IBook }) => {
         const res = await createBorrow({ ...data, book: book._id })
         console.log(res);
         // toast.error(res.error.data.error.message);
-       
+
         if (res && 'error' in res && res.error && typeof res.error === 'object' && 'data' in res.error && (res.error as any).data?.error?.message) {
             toast.error((res.error as any).data.error.message)
         }
@@ -35,6 +37,7 @@ const BorrowBookModal = ({ book }: { book: IBook }) => {
             toast.success((res.data as any).message)
             setOpen(false)
             form.reset()
+            navigate('/borrow-summary')
         }
         else {
             toast.error("An unexpected error occurred.")
