@@ -3,6 +3,7 @@ import type { IBook } from '../../interfaces/Book';
 import { FaEdit, FaTrash } from "react-icons/fa";
 import BorrowBookModal from "@/Components/BorrowBookModal";
 import toast from "react-hot-toast";
+import UpdateBookModal from "@/Components/UpdateBookModal";
 
 
 const AllBook = () => {
@@ -75,7 +76,7 @@ const AllBook = () => {
                                         className="text-yellow-600 hover:text-yellow-800"
                                         title="Edit Book"
                                     >
-                                        <FaEdit />
+                                        <UpdateBookModal book={book} />
                                     </button>
                                     <button
                                         onClick={() => handleDelete(book)}
